@@ -21,7 +21,7 @@ router.post("/collums", (req, res) => {
   const collums = new collum(req.body);
   collums.save().then((item) => {
     todo.findByIdAndUpdate(
-      { _id: "5eacd7c11a50ac404cb290d3" },
+      { _id: "5ead280542fb1815bdb738a3" },
       { $push: { collums: item._id } },
       { new: true },
       (err, todo) => {
@@ -34,6 +34,7 @@ router.post("/collums", (req, res) => {
 
 //PUT request
 router.put("/collums", (req, res) => {
+  console.log(req.body);
   collum.findByIdAndUpdate(
     req.body._id,
     req.body,
@@ -70,7 +71,7 @@ router.patch("/collums", (req, res) => {
 router.delete("/collums", (req, res) => {
   collum.deleteOne({ _id: req.body.id }).then((item) => {
     todo.findByIdAndUpdate(
-      { _id: "5eacd7c11a50ac404cb290d3" },
+      { _id: "5ead280542fb1815bdb738a3" },
       { $pull: { collums: { $in: [req.body.id] } } },
       { new: true },
       (err, todo) => {
@@ -131,18 +132,18 @@ module.exports = router;
 //GET request
 router.get("/todo", (req, res) => {
   todo
-    .find()
+    .find({ _id: "5ead280542fb1815bdb738a3" })
     .populate({ path: "collums", populate: { path: "tasks" } })
     .then(function (prod) {
       res.send(prod);
     });
 });
 
-//PUT request
-router.put("/todo", (req, res) => {
-  collum.findByIdAndUpdate(
-    req.body._id,
-    req.body,
+//PATCH request
+router.patch("/todo", (req, res) => {
+  todo.findByIdAndUpdate(
+    { _id: "5ead280542fb1815bdb738a3" },
+    { collums: req.body },
     { new: true },
     (err, todo) => {
       if (err) return res.status(500).send(err);

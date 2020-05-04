@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const collum = require("./collum");
 const Schema = mongoose.Schema;
 
 const taskSchema = new mongoose.Schema({
