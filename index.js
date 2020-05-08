@@ -15,7 +15,7 @@ app.use(express.json({ extended: false }));
 
 const server = require("http").createServer(app);
 server.listen(PORT, () => console.log(`server started on port ` + PORT));
-const io = require("socket.io").listen(server);
+const io = require("socket.io")(server, { wsEngine: "ws" });
 
 io.sockets.on("connection", (data) => {
   Todo.watch().on("change", (data) => {
